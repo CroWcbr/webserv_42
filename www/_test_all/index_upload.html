@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<style>
+		body {
+			width: 100em; margin: auto;
+			background: burlywood;
+			font-family: Tahoma, Verdana, Arial, sans-serif; }
+
+		.parent {
+			width: 100%;
+			height: 60%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			overflow: auto;
+		}
+
+		.block {
+			width: 500px;
+			height: 500px;
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			margin: auto;
+		}
+	</style>
+	<title>Choose file</title>
+</head>
+
+<body>
+
+<div class="parent">
+	<table style="width:100%">
+		<tr>
+			<th><a href="index.html" style="font-family:Monotype Corsiva;color:black;font-size:25px">Webserv</a><br/></th>
+			<th><a href="test_cgi_php/index.php" style="font-family:Monotype Corsiva;color:black;font-size:25px">PHP</a><br/></th>
+			<th><a href="test_cgi_py/index.py" style="font-family:Monotype Corsiva;color:black;font-size:25px">Python</a><br/></th>
+			<th><a href="index_upload.html" style="font-family:Monotype Corsiva;color:black;font-size:25px">Choose file</a><br/></th>
+			<th><a href="google" style="font-family:Monotype Corsiva;color:black;font-size:25px">Google</a><br/></th>
+		</tr>
+	</table>
+
+	<div class="block">
+		<form method="POST" action="/uploads" enctype="multipart/form-data">
+				<span>	<br/><br/><br/><div class="cover"><h1>Choose file to upload</h1><br/></span>
+
+					<input type="file" name="uploadedFile" />
+			<input type="submit" name="uploadBtn" value="Upload" />
+		</form>
+
+	</div>
+
+	<table>
+		<tr>
+			<td>
+				<th><br/><br/><a href="uploads" style="font-family:Monotype Corsiva;color:black;font-size:25px">upload</a><br/></th>
+			</td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>
