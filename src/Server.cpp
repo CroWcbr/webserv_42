@@ -40,6 +40,7 @@ void Server::_CreateHttpCodeList()
 	_http_code_list["414"] = "URI Too Long";
 
 	_http_code_list["500"] = "Internal Server Error";
+	_http_code_list["502"] = "Bad Gateway";
 	_http_code_list["504"] = "Gateway Timeout";
 	_http_code_list["505"] = "HTTP Version Not Supported";
 	_http_code_list["508"] = "Loop Detected";

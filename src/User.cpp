@@ -102,6 +102,7 @@ void User::ClearAll()
 	_response_path.clear();
 	_response_header.clear();
 	_response_body.clear();
+
 	_response_dir = false;
 	_response_file = false;
 	_response_ext.clear();
@@ -390,8 +391,7 @@ void User::CreateResponse()
 	}
 
 	if (_content_type_cgi != "")
-		_response_header += "Content-Type: text/html; charset=utf-8\r\n";
-
+		_response_header += _content_type_cgi + "\r\n";
 	else if (_mime_ext_list->find(_response_ext) != _mime_ext_list->end())
 		_response_header += "Content-Type: " + _mime_ext_list->find(_response_ext)->second + "\r\n";
 	else 
@@ -526,30 +526,6 @@ void User::_ParseResponseUpload()
 
 	_request_body = _request_body.substr(_request_body.find("\r\n\r\n") + 4);
 	_request_body = _request_body.substr(0, _request_body.find(boundary));
-
-						std::cout << "\033[90m";
-						std::cout << "++++++++++++++++++++" << std::endl;
-						std::cout << "\033[92m";
-						std::cout << "boundary :" << boundary << std::endl;
-						std::cout << "boundary_end :" << boundary_end << std::endl;
-	
-	
-						std::cout << "file_name :" << file_name << std::endl;
-
-						std::cout << "path_file :" << path_file << std::endl;;
-					
-
-						if (_request_body.size() > 2000)
-						{
-
-							std::cout << "_request_body :" << _request_body.substr(0, 1000) << std::endl;
-							std::cout << "_request_body :" << _request_body.substr(_request_body.size() - 1000, 1000) << std::endl;	
-						}
-						else
-							std::cout << "_request_body :" << _request_body << std::endl;	
-						std::cout << "\033[90m";
-						std::cout << "++++++++++++++++++++" << std::endl;
-						std::cout << "\033[92m";
 
 	std::ofstream tmp_file(path_file);
 	if (!tmp_file.is_open())
@@ -711,7 +687,7 @@ void User::_ParseResponseCGI()
 
 	pid_t pid = fork();
 	if (pid == -1)
-		throw "500 Could not create process in CgiHandler";	
+		throw "502 Could not create process in CgiHandler";	
 	if (pid == 0)
 	{
 		extern char **environ;
@@ -727,9 +703,13 @@ void User::_ParseResponseCGI()
 		if (execve(cgi_info[0], (char *const *)cgi_info, environ) == -1)
 			exit(1);
 	}
-	waitpid(pid, nullptr, 0);
-	lseek(fdOutput, 0, SEEK_SET);
+	int status;
+	if (waitpid(pid, &status, 0) == -1)
+		throw "500 ... waitpid error";
+	if (WIFEXITED(status) && WEXITSTATUS(status))
+		throw "502 ... cgi status error";
 
+	lseek(fdOutput, 0, SEEK_SET);
 	int size_buf = 65535;
 	char buffer[size_buf];
 	int ret;
@@ -800,6 +780,8 @@ void User::_CGIParseBody()
 				throw error.c_str();
 			}
 		}
+		else if (!cgi_body_split.empty() && cgi_body_split[0] == "Content-Type:")
+			_content_type_cgi = _response_body.substr(0, end);
 		else if (!cgi_body_split.empty() && cgi_body_split[0] == "Set-Cookie:")
 		{
 			_response_header_cookie = _response_body.substr(0, end);
