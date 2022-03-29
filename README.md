@@ -20,3 +20,9 @@ top-level project diagram - written at the start project (does not correspond 10
 - cookies and session work with php browser;
 - upload work with POS;
 - for test DELETE need to write "DELETE ..." from http://localhost/test_del;
+
+## Documentation
+- [nginx](https://nginx.org/ru/docs/http/ngx_http_core_module.html)
+- [sockets](https://www.rsdn.org/article/unix/sockets.xml)
+- [HTTP](https://developer.mozilla.org/ru/docs/Web/HTTP)
+- [CGI](http://www.wijata.com/cgi/cgispec.html#4.0)
