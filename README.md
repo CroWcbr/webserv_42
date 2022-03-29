@@ -10,8 +10,8 @@ This is when you finally understand why a URL starts with HTTP
 - ./webserv - use default config
 - ./webserv ./congig/mac_tester.config - use tester
 
-## Diagramme in PDF
-top-level project diagram - written at the start project (does not correspond 100% to the final version)
+## Diagramm in PDF
+top-level project diagramm - written at the start project (was corrected during project)
 
 ## Site
 - http://localhost:8000
